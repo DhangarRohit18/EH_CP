@@ -1,0 +1,6 @@
+{
+  "name": "WebGuard - E-Commerce Fraud Risk Engine",
+  "description": "Explainable Multi-Factor E-Commerce Fraud Risk Assessment and Pre-Payment Protection with Manifest V3 browser extension and FastAPI ML backend.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

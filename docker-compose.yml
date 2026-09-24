@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  webguard-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://webguard_user:webguard_pass@db:5432/webguard_db
+      - ENVIRONMENT=production
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=webguard_user
+      - POSTGRES_PASSWORD=webguard_pass
+      - POSTGRES_DB=webguard_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
