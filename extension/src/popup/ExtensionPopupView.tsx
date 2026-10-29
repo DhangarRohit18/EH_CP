@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AnalysisResult } from '../../types';
+import { AnalysisResult } from '../types';
 import { ShieldCheck, ExternalLink, ChevronRight, Lock, Globe } from 'lucide-react';
 
 interface ExtensionPopupProps {
@@ -29,18 +29,14 @@ export const ExtensionPopupView: React.FC<ExtensionPopupProps> = ({
     );
   }
 
-  // Calculate circular stroke values
   const score = result.riskScore;
   const radius = 38;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (score / 100) * circumference;
-
-  // Single Accent Color throughout: Cobalt Blue (#2563eb)
   const singleAccentColor = '#2563eb';
 
   return (
     <div className={`w-[360px] bg-white text-neutral-900 font-sans border border-neutral-300 shadow-md flex flex-col ${isCompact ? '' : 'rounded-xl overflow-hidden'}`}>
-      {/* Extension Header - Pure White */}
       <div className="bg-white px-4 py-3 border-b border-neutral-200 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-white">
@@ -58,7 +54,6 @@ export const ExtensionPopupView: React.FC<ExtensionPopupProps> = ({
         </div>
       </div>
 
-      {/* Target URL Info Bar */}
       <div className="bg-neutral-50 px-4 py-2 border-b border-neutral-200 flex items-center justify-between text-xs">
         <div className="flex items-center gap-1.5 truncate max-w-[240px]">
           <Globe className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
@@ -69,10 +64,8 @@ export const ExtensionPopupView: React.FC<ExtensionPopupProps> = ({
         </span>
       </div>
 
-      {/* Score Hero Section */}
       <div className="p-4 flex items-center justify-between border-b border-neutral-200 bg-white">
         <div className="flex items-center gap-3">
-          {/* Circular Risk Meter */}
           <div className="relative w-20 h-20 flex items-center justify-center shrink-0">
             <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 100 100">
               <circle
@@ -118,7 +111,6 @@ export const ExtensionPopupView: React.FC<ExtensionPopupProps> = ({
         </div>
       </div>
 
-      {/* Explanations List */}
       <div className="px-4 py-3 bg-neutral-50 border-b border-neutral-200">
         <div className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 font-bold mb-2">
           Point Contribution Breakdown
@@ -135,7 +127,6 @@ export const ExtensionPopupView: React.FC<ExtensionPopupProps> = ({
         </div>
       </div>
 
-      {/* 7 Factor Mini-Tiles */}
       <div className="p-3 bg-white space-y-1 flex-1 overflow-y-auto max-h-[160px]">
         {Object.entries(result.factors).map(([key, factor]) => {
           const isExpanded = expandedFactor === key;
@@ -165,7 +156,6 @@ export const ExtensionPopupView: React.FC<ExtensionPopupProps> = ({
         })}
       </div>
 
-      {/* Bottom Actions */}
       <div className="p-3 bg-neutral-50 border-t border-neutral-200 flex flex-col gap-1.5">
         <button
           onClick={onViewFullAnalysis}
@@ -187,3 +177,5 @@ export const ExtensionPopupView: React.FC<ExtensionPopupProps> = ({
     </div>
   );
 };
+
+export default ExtensionPopupView;

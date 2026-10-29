@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ExtensionPopupView } from '../../../frontend/src/components/extension-view/ExtensionPopupView';
+import { ExtensionPopupView } from './ExtensionPopupView';
 import { AnalysisResult } from '../types';
 import { analyzePayload } from '../../../frontend/src/engine/riskEngine';
 import { DEMO_TEST_CASES } from '../../../frontend/src/engine/testCases';
