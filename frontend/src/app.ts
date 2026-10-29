@@ -407,7 +407,7 @@ function renderSecurityTab() {
     tr.innerHTML = `
       <td><span class="sec-badge sec-badge-${f.severity.toLowerCase()}">${f.severity}</span></td>
       <td>
-        <div style="font-family:var(--font-mono); font-weight:700; color:#fff;">${f.finding_id}</div>
+        <div style="font-family:var(--font-mono); font-weight:700; color:var(--text-main);">${f.finding_id}</div>
         <div style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase;">${f.category}</div>
       </td>
       <td>
@@ -521,7 +521,7 @@ async function renderSurfaceTab() {
     if (scopesList.length === 0) {
       scopeTbody.innerHTML = `
         <tr>
-          <td><span style="font-family:var(--font-mono); font-weight:600; color:#fff;">vulnerable-test-shop.org</span></td>
+          <td><span style="font-family:var(--font-mono); font-weight:600; color:var(--text-main);">vulnerable-test-shop.org</span></td>
           <td><span class="sec-badge sec-badge-low">Authorized In-Scope</span></td>
           <td><span class="sec-badge sec-badge-critical">Probing Allowed</span></td>
           <td>SecOps Team</td>
@@ -532,7 +532,7 @@ async function renderSurfaceTab() {
       scopesList.forEach(s => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><span style="font-family:var(--font-mono); font-weight:600; color:#fff;">${s.domain}</span></td>
+          <td><span style="font-family:var(--font-mono); font-weight:600; color:var(--text-main);">${s.domain}</span></td>
           <td><span class="sec-badge ${s.is_authorized ? 'sec-badge-low' : 'sec-badge-critical'}">${s.is_authorized ? 'Authorized' : 'Unauthorized'}</span></td>
           <td><span class="sec-badge ${s.active_probing_allowed ? 'sec-badge-critical' : 'sec-badge-info'}">${s.active_probing_allowed ? 'Probing Permitted' : 'Passive Only'}</span></td>
           <td>${s.authorized_by}</td>
@@ -548,7 +548,7 @@ async function renderSurfaceTab() {
     if (assetsList.length === 0) {
       assetsTbody.innerHTML = `
         <tr>
-          <td><span style="font-family:var(--font-mono); font-weight:600; color:#fff;">flashdeal-electronics.local</span></td>
+          <td><span style="font-family:var(--font-mono); font-weight:600; color:var(--text-main);">flashdeal-electronics.local</span></td>
           <td><span class="matrix-tech-badge">domain</span></td>
           <td>192.0.2.1</td>
           <td>443</td>
@@ -560,7 +560,7 @@ async function renderSurfaceTab() {
       assetsList.forEach(a => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><span style="font-family:var(--font-mono); font-weight:600; color:#fff;">${a.hostname}</span></td>
+          <td><span style="font-family:var(--font-mono); font-weight:600; color:var(--text-main);">${a.hostname}</span></td>
           <td><span class="matrix-tech-badge">${a.asset_type}</span></td>
           <td>${a.ip_address || 'Unresolved'}</td>
           <td>${a.port || 443}</td>
@@ -626,7 +626,7 @@ async function renderDevSecTab(triggerScan = false) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><span class="sec-badge sec-badge-${f.severity.toLowerCase()}">${f.severity}</span></td>
-          <td><span style="font-family:var(--font-mono); font-weight:700; color:#fff;">${f.rule_id}</span></td>
+          <td><span style="font-family:var(--font-mono); font-weight:700; color:var(--text-main);">${f.rule_id}</span></td>
           <td><span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);">${f.file}:${f.line}</span></td>
           <td>
             <div style="font-weight:600; color:var(--text-main);">${f.title}</div>
@@ -955,7 +955,7 @@ function renderThreatStream() {
       <div style="display:flex; align-items:center; gap:12px;">
         <span style="width:8px; height:8px; border-radius:50%; background-color:${color}; box-shadow:0 0 6px ${color};"></span>
         <div>
-          <div style="font-family:var(--font-mono); font-size:0.84rem; font-weight:600; color:#fff;">${item.domain}</div>
+          <div style="font-family:var(--font-mono); font-size:0.84rem; font-weight:600; color:var(--text-main);">${item.domain}</div>
           <div style="font-size:0.75rem; color:var(--text-dim);">${item.productName || 'Catalog Assessment'} • ${item.recommendation?.slice(0, 60) || 'Evidence analyzed'}</div>
         </div>
       </div>
