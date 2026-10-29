@@ -4,7 +4,7 @@
  */
 
 import { AnalysisPayload, AnalysisResult } from '../types';
-import { analyzePayload } from '../../../src/engine/riskEngine';
+import { analyzePayload } from '../../../frontend/src/engine/riskEngine';
 
 declare const chrome: any;
 

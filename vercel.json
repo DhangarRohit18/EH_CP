@@ -1,6 +1,6 @@
 {
   "installCommand": "npm install --legacy-peer-deps",
-  "buildCommand": "vite build",
+  "buildCommand": "vite build --config frontend/vite.config.ts",
   "outputDirectory": "dist",
   "rewrites": [
     {

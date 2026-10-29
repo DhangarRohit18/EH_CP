@@ -1,1 +1,1 @@
-export * from '../../../src/types/index';
+export * from '../../../frontend/src/types/index';

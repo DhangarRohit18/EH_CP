@@ -66,6 +66,20 @@ Action:              Pre-Payment Security Warning Overlay Triggered!
 
 ---
 
+## 📁 Repository Structure & Subfolder Classification
+
+The codebase is organized into dedicated subfolders for modularity and maintainability:
+
+| Subfolder | Classification | Description |
+| :--- | :--- | :--- |
+| [`frontend/`](file:///frontend) | **Web Application UI** | React 19 + TypeScript + Vite + TailwindCSS 4 dashboard, Storefront Simulator, and Forensic Analytics. |
+| [`backend/`](file:///backend) | **API & Risk Engines** | Python FastAPI ML service (`app/`) + Full-Stack Node.js Express server (`server.ts`). |
+| [`extension/`](file:///extension) | **Browser Extension** | Manifest V3 Chrome & Edge extension for client-side pre-payment interception. |
+| [`docs/`](file:///docs) | **Documentation** | [System Architecture](file:///docs/ARCHITECTURE.md), [REST API Reference](file:///docs/API_REFERENCE.md), and [Testing Checklist](file:///docs/TESTING_CHECKLIST.md). |
+| [`api/`](file:///api) | **Serverless Entry** | Vercel serverless function wrapper for cloud deployment. |
+
+---
+
 ## 🚀 Quickstart & Local Execution
 
 ### 1. Web Application & Dashboard (Full-Stack Express + React)
@@ -75,6 +89,9 @@ npm install
 
 # Run full-stack dev server (starts on http://localhost:3000)
 npm run dev
+
+# Or run frontend standalone (starts Vite on http://localhost:5173)
+npm run dev:frontend
 ```
 
 Visit `http://localhost:3000` to interact with:

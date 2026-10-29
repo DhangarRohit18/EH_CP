@@ -1,14 +1,18 @@
 {
-  "name": "react-example",
+  "name": "webguard",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx server.ts",
-    "start": "tsx server.ts",
-    "build": "vite build",
-    "preview": "vite preview",
-    "clean": "rm -rf dist server.js",
+    "dev": "tsx backend/server.ts",
+    "dev:frontend": "vite --config frontend/vite.config.ts",
+    "dev:backend": "tsx backend/server.ts",
+    "dev:python": "uvicorn app.main:app --app-dir backend --reload --port 8000",
+    "start": "tsx backend/server.ts",
+    "build": "vite build --config frontend/vite.config.ts",
+    "build:frontend": "vite build --config frontend/vite.config.ts",
+    "preview": "vite preview --config frontend/vite.config.ts",
+    "clean": "rm -rf dist frontend/dist server.js",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

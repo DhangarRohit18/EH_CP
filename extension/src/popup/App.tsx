@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { ExtensionPopupView } from '../../../src/components/extension-view/ExtensionPopupView';
+import { ExtensionPopupView } from '../../../frontend/src/components/extension-view/ExtensionPopupView';
 import { AnalysisResult } from '../types';
-import { analyzePayload } from '../../../src/engine/riskEngine';
-import { DEMO_TEST_CASES } from '../../../src/engine/testCases';
+import { analyzePayload } from '../../../frontend/src/engine/riskEngine';
+import { DEMO_TEST_CASES } from '../../../frontend/src/engine/testCases';
 
 declare const chrome: any;
 

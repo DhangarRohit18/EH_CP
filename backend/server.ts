@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { analyzePayload } from './src/engine/riskEngine';
-import { DEMO_TEST_CASES } from './src/engine/testCases';
-import { AnalysisPayload, AnalysisResult } from './src/types';
+import { analyzePayload } from '../frontend/src/engine/riskEngine';
+import { DEMO_TEST_CASES } from '../frontend/src/engine/testCases';
+import { AnalysisPayload, AnalysisResult } from '../frontend/src/types';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -104,12 +104,14 @@ async function startServer() {
   if (!isProd) {
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
+      configFile: path.resolve(__dirname, '../frontend/vite.config.ts'),
+      root: path.resolve(__dirname, '../frontend'),
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.resolve(__dirname, 'dist');
+    const distPath = path.resolve(__dirname, '../dist');
     app.use(express.static(distPath));
     app.get('*', (_req, res) => {
       res.sendFile(path.resolve(distPath, 'index.html'));
