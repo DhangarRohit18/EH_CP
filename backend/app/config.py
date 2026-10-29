@@ -1,10 +1,10 @@
 import os
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "WebGuard Fraud Risk Engine"
     API_V1_STR: str = "/api/v1"
-    PORT: int = 8000
+    PORT: int = 8001
     HOST: str = "0.0.0.0"
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
     
@@ -19,8 +19,6 @@ class Settings(BaseSettings):
     # ML settings
     ENABLE_ISOLATION_FOREST: bool = True
     
-    class Config:
-        env_file = ".env"
-        extra = "allow"
+    model_config = SettingsConfigDict(env_file=".env", extra="allow")
 
 settings = Settings()

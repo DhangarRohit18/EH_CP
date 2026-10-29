@@ -162,3 +162,95 @@ Base URLs:
 ## 4. Clear History
 - **Endpoint**: `DELETE /api/v1/history`
 - **Description**: Clears the in-memory or persisted telemetry store.
+
+---
+
+## 5. Technical Security Assessment
+- **Endpoint**: `POST /api/v1/security-assessments` (or `POST /api/security-assessments`)
+- **Description**: Evaluates target web application for TLS/HTTPS configuration, security response headers (HSTS, CSP, X-Content-Type-Options, Referrer-Policy, Permissions-Policy), cookie security attributes, and OWASP Top 10 passive checks. Correlates detected software components with known CVEs.
+- **Request Body (`application/json`)**:
+```json
+{
+  "url": "https://example.com",
+  "domain": "example.com",
+  "headers": {
+    "Server": "Apache/2.4.49",
+    "X-Powered-By": "PHP/7.4.3"
+  },
+  "cookies": [
+    { "name": "session_id", "secure": true, "httpOnly": true }
+  ],
+  "html_content": "<meta name='generator' content='WordPress 5.8.1'>",
+  "active_probe_allowed": false
+}
+```
+- **Response `200 OK`**:
+```json
+{
+  "id": "sec-a9f82d41",
+  "url": "https://example.com",
+  "domain": "example.com",
+  "security_score": 68,
+  "security_level": "ELEVATED_RISK",
+  "findings_count": 4,
+  "severity_breakdown": {
+    "CRITICAL": 0,
+    "HIGH": 2,
+    "MEDIUM": 1,
+    "LOW": 1,
+    "INFO": 0
+  },
+  "findings": [ ... ],
+  "technologies": [ ... ],
+  "cve_matches": [ ... ],
+  "owasp_alignment": { ... },
+  "dns_observations": { ... },
+  "tls_observations": { ... }
+}
+```
+
+---
+
+## 6. Technical Security Findings Query
+- **Endpoint**: `GET /api/v1/findings` (or `GET /api/findings`)
+- **Query Parameters**:
+  - `severity`: Filter by `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`, `INFO`
+  - `category`: Filter by `headers`, `tls`, `cookies`, `cve`, `owasp`
+  - `verification_status`: Filter by `verified`, `potentially_affected`, `unverified`
+  - `limit`, `offset`: Pagination parameters
+
+---
+
+## 7. Authorized Assessment Scopes
+- **Endpoints**:
+  - `GET /api/v1/scopes`: List all registered assessment scopes.
+  - `POST /api/v1/scopes`: Authorize a domain for security assessment.
+- **Scope Body**:
+```json
+{
+  "domain": "target-corp.com",
+  "authorized_by": "SecOps Lead",
+  "is_authorized": true,
+  "active_probing_allowed": false,
+  "environment": "staging"
+}
+```
+
+---
+
+## 8. Discovered Attack Surface & Asset Inventory
+- **Endpoints**:
+  - `GET /api/v1/assets` (or `GET /api/assets`): Retrieve inventory of discovered domains, subdomains, and hostnames.
+  - `POST /api/v1/assets`: Register a newly observed asset.
+
+---
+
+## 9. Developer Security & Static Repository Audit
+- **Endpoint**: `GET /api/v1/developer-security`
+- **Description**: Runs non-executing static AST/regex security audit on the WebGuard repository (detecting `eval`, `exec`, weak crypto `md5`/`sha1`, dangerous React HTML, and hardcoded secrets) and audits Python/NPM dependencies.
+
+---
+
+## 10. Threat Intelligence Provider Health & Status
+- **Endpoint**: `GET /api/v1/providers/status` (or `GET /api/providers/status`)
+- **Description**: Returns circuit breaker state, timeout metrics, and freshness policies for external OSINT and CVE providers.

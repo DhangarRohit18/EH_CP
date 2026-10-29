@@ -1,8 +1,14 @@
 """
-Thresholds, Weights, and Constants for WebGuard Multi-Factor Risk Engine
+WebGuard Centralized Thresholds, Factor Weights, and Classification Engine
+Single Source of Truth across Backend, Extension, and Frontend
 """
 
-WEIGHTS = {
+from typing import Dict
+
+# ============================================================================
+# Exact Factor Weights (Must sum strictly to 1.00 / 100%)
+# ============================================================================
+WEIGHTS: Dict[str, float] = {
     "domain": 0.20,
     "price": 0.20,
     "reviews": 0.15,
@@ -12,20 +18,45 @@ WEIGHTS = {
     "behaviour": 0.10,
 }
 
-# Verify weights sum exactly to 1.0 (100%)
-assert abs(sum(WEIGHTS.values()) - 1.0) < 1e-6, "Weights must sum to 100%"
+assert abs(sum(WEIGHTS.values()) - 1.0) < 1e-6, "Factor weights must sum strictly to 100%"
 
-RISK_LEVEL_LOW = "LOW"
-RISK_LEVEL_MEDIUM = "MEDIUM"
-RISK_LEVEL_HIGH = "HIGH"
-RISK_LEVEL_CRITICAL = "CRITICAL"
+# ============================================================================
+# Standard Risk Tiers
+# ============================================================================
+RISK_LEVEL_LOW = "LOW"          # 0 - 29 (Safe to proceed)
+RISK_LEVEL_MEDIUM = "MEDIUM"    # 30 - 59 (Exercise caution)
+RISK_LEVEL_HIGH = "HIGH"        # 60 - 79 (Warning overlay triggered)
+RISK_LEVEL_CRITICAL = "CRITICAL"# 80 - 100 (Critical fraud risk / imminent loss)
 
-POPULAR_DOMAINS = [
-    "amazon.com", "amazon.in", "flipkart.com", "apple.com", "walmart.com",
-    "bestbuy.com", "target.com", "ebay.com", "myntra.com", "tatacliq.com",
-    "nike.com", "adidas.com", "samsung.com", "croma.com", "reliancedigital.in"
+def get_risk_level(score: int) -> str:
+    """
+    Centralized mapping of numerical score to risk tier.
+    """
+    if score >= 80:
+        return RISK_LEVEL_CRITICAL
+    elif score >= 60:
+        return RISK_LEVEL_HIGH
+    elif score >= 30:
+        return RISK_LEVEL_MEDIUM
+    return RISK_LEVEL_LOW
+
+# Pre-payment warning threshold:
+# When score >= 60 or on checkout with high deception indicators
+PRE_PAYMENT_INTERCEPT_THRESHOLD = 60
+
+# ============================================================================
+# High-Abuse TLD Categories (Frequently used by ephemeral fraud storefronts)
+# ============================================================================
+SUSPICIOUS_TLDS = [
+    ".top", ".xyz", ".buzz", ".icu", ".club", ".shop", ".click",
+    ".live", ".work", ".vip", ".rest", ".fit", ".monster", ".online", ".store"
 ]
 
-SUSPICIOUS_TLDS = [
-    ".top", ".xyz", ".buzz", ".icu", ".club", ".shop", ".click", ".live", ".work", ".vip", ".rest"
+# ============================================================================
+# Established Brand Benchmarks for Typosquatting / Lookalike Detection
+# ============================================================================
+BRAND_BENCHMARKS = [
+    "amazon", "flipkart", "apple", "walmart", "target", "bestbuy",
+    "ebay", "myntra", "croma", "reliancedigital", "tatacliq", "nike",
+    "adidas", "samsung", "zara", "shein", "meesho"
 ]

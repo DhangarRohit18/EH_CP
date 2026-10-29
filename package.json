@@ -7,10 +7,11 @@
     "dev": "tsx backend/server.ts",
     "dev:frontend": "vite --config frontend/vite.config.ts",
     "dev:backend": "tsx backend/server.ts",
-    "dev:python": "uvicorn app.main:app --app-dir backend --reload --port 8000",
+    "dev:python": "uvicorn app.main:app --app-dir backend --reload --port 8001",
     "start": "tsx backend/server.ts",
     "build": "vite build --config frontend/vite.config.ts",
     "build:frontend": "vite build --config frontend/vite.config.ts",
+    "build:extension": "node extension/build.js",
     "preview": "vite preview --config frontend/vite.config.ts",
     "clean": "rm -rf dist frontend/dist server.js",
     "lint": "tsc --noEmit"

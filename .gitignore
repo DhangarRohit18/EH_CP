@@ -18,3 +18,6 @@ venv/
 .venv/
 env/
 .pytest_cache/
+*.db
+*.sqlite
+extension/dist/

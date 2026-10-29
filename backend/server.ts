@@ -1,103 +1,76 @@
+/**
+ * WebGuard Full-Stack Dev Server & Canonical API Proxy
+ * 
+ * ARCHITECTURE PRINCIPLE (SINGLE SOURCE OF TRUTH):
+ * All analysis scoring, ML inference, and database persistence are handled
+ * exclusively by the canonical FastAPI backend (http://127.0.0.1:8000).
+ * 
+ * Express serves the compiled frontend assets and proxies /api/v1 requests
+ * directly to FastAPI to prevent duplicate scoring engines or split persistence.
+ */
+
 import express, { Request, Response } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { analyzePayload } from '../frontend/src/engine/riskEngine';
-import { DEMO_TEST_CASES } from '../frontend/src/engine/testCases';
-import { AnalysisPayload, AnalysisResult } from '../frontend/src/types';
+import http from 'http';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const FASTAPI_TARGET = process.env.FASTAPI_TARGET || 'http://127.0.0.1:8001';
 
 app.use(express.json());
 
-// In-memory persistent history store (seeded with the 5 test vectors)
-const historyStore: AnalysisResult[] = DEMO_TEST_CASES.map(tc => analyzePayload(tc.data));
+// ============================================================================
+// Transparent Reverse-Proxy to Canonical FastAPI Service
+// ============================================================================
+function proxyToFastAPI(req: Request, res: Response) {
+  const targetUrl = new URL(req.originalUrl, FASTAPI_TARGET);
 
-// ==========================================
-// REST API v1 Routes
-// ==========================================
-
-// Health Check
-app.get('/api/v1/health', (_req: Request, res: Response) => {
-  res.json({
-    status: 'online',
-    service: 'WebGuard E-Commerce Fraud Risk Engine',
-    timestamp: new Date().toISOString(),
-    weights: {
-      domain: 0.20,
-      price: 0.20,
-      reviews: 0.15,
-      identity: 0.15,
-      policy: 0.10,
-      payment: 0.10,
-      behaviour: 0.10,
-      total: 1.00
+  const proxyReq = http.request(
+    targetUrl.toString(),
+    {
+      method: req.method,
+      headers: {
+        ...req.headers,
+        host: targetUrl.host,
+      },
     },
-    ml_models: {
-      isolation_forest: 'active',
-      nlp_similarity: 'active'
+    proxyRes => {
+      res.writeHead(proxyRes.statusCode || 500, proxyRes.headers);
+      proxyRes.pipe(res);
     }
+  );
+
+  proxyReq.on('error', err => {
+    res.status(503).json({
+      error: 'Canonical FastAPI Backend Unavailable',
+      detail: `Could not reach ${FASTAPI_TARGET}. Ensure FastAPI is running via 'npm run dev:python'`,
+      system: 'WebGuard Reverse Proxy',
+      internal_error: err.message,
+    });
   });
-});
 
-// Analyze Storefront
-app.post('/api/v1/analyze', (req: Request, res: Response) => {
-  try {
-    const payload: AnalysisPayload = req.body;
-    if (!payload.url && !payload.domain) {
-      return res.status(400).json({ error: 'URL or domain is required.' });
-    }
-
-    const result = analyzePayload(payload);
-    // Prepend to history
-    historyStore.unshift(result);
-    // Keep max 100 items
-    if (historyStore.length > 100) historyStore.pop();
-
-    return res.json(result);
-  } catch (err: any) {
-    console.error('[WebGuard Server Error]', err);
-    return res.status(500).json({ error: 'Internal risk engine error', details: err?.message });
-  }
-});
-
-// History List
-app.get('/api/v1/history', (req: Request, res: Response) => {
-  const riskLevel = req.query.risk_level as string;
-  const domain = req.query.domain as string;
-
-  let items = [...historyStore];
-  if (riskLevel) {
-    items = items.filter(i => i.riskLevel.toUpperCase() === riskLevel.toUpperCase());
-  }
-  if (domain) {
-    items = items.filter(i => i.domain.toLowerCase().includes(domain.toLowerCase()));
+  if (['POST', 'PUT', 'PATCH'].includes(req.method) && req.body) {
+    const bodyData = JSON.stringify(req.body);
+    proxyReq.setHeader('Content-Type', 'application/json');
+    proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+    proxyReq.write(bodyData);
   }
 
-  res.json(items);
+  proxyReq.end();
+}
+
+// Route all /api/v1/*, /api/*, and /health to Canonical FastAPI
+app.use(['/api/v1', '/api', '/health'], (req: Request, res: Response) => {
+  proxyToFastAPI(req, res);
 });
 
-// History Single Item
-app.get('/api/v1/history/:id', (req: Request, res: Response) => {
-  const item = historyStore.find(i => i.id === req.params.id);
-  if (!item) {
-    return res.status(404).json({ error: 'Analysis record not found' });
-  }
-  res.json(item);
-});
-
-// Clear history
-app.delete('/api/v1/history', (_req: Request, res: Response) => {
-  historyStore.length = 0;
-  res.json({ message: 'History cleared' });
-});
-
-// ==========================================
-// Vite / Static Middleware Mount
-// ==========================================
+// ============================================================================
+// Static Frontend & Vite Integration
+// ============================================================================
 async function startServer() {
   const isProd = process.env.NODE_ENV === 'production';
 
@@ -119,7 +92,8 @@ async function startServer() {
   }
 
   app.listen(Number(PORT), '0.0.0.0', () => {
-    console.log(`[WebGuard Server] Running on http://localhost:${PORT}`);
+    console.log(`[WebGuard Frontend Host] Running on http://localhost:${PORT}`);
+    console.log(`[WebGuard API Forwarder] Proxying /api/v1 -> ${FASTAPI_TARGET}/api/v1`);
   });
 }
 

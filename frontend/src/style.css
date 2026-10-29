@@ -1025,3 +1025,244 @@ body {
   color: #fff;
   border-color: var(--border-bright);
 }
+
+/* ==========================================================================
+   WebGuard Technical Security & Intelligence UI Styles
+   ========================================================================== */
+
+.sec-summary-banner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.sec-stat-card {
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sec-stat-label {
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
+.sec-stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: #fff;
+}
+
+.sec-findings-panel {
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+}
+
+.sec-findings-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-size: 0.85rem;
+}
+
+.sec-findings-table th {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-bright);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sec-findings-table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: top;
+}
+
+.sec-findings-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.sec-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.sec-badge-critical {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--threat-critical);
+  border: 1px solid var(--threat-critical);
+}
+
+.sec-badge-high {
+  background: rgba(251, 146, 60, 0.15);
+  color: var(--threat-high);
+  border: 1px solid var(--threat-high);
+}
+
+.sec-badge-medium {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--threat-caution);
+  border: 1px solid var(--threat-caution);
+}
+
+.sec-badge-low {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-blue);
+}
+
+.sec-badge-info {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-muted);
+  border: 1px solid var(--text-dim);
+}
+
+.sec-remediation-box {
+  background: rgba(6, 182, 212, 0.06);
+  border-left: 3px solid var(--accent-cyan);
+  padding: 10px 14px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.tech-card {
+  padding: 18px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform var(--transition-fast);
+}
+
+.tech-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-bright);
+}
+
+.tech-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tech-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.tech-category-pill {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  padding: 2px 8px;
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--accent-blue);
+  border-radius: var(--radius-full);
+}
+
+.tech-version-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+}
+
+.cve-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.cve-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cve-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cve-id {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.98rem;
+  color: #fff;
+}
+
+.cve-cvss {
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.8rem;
+}
+
+.cve-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: var(--threat-caution);
+  text-transform: uppercase;
+}
+
+.scope-actions-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.devsec-code-box {
+  background: #05080f;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #e2e8f0;
+  overflow-x: auto;
+  margin-top: 6px;
+}

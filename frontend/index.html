@@ -30,7 +30,43 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <span>Analyzer</span>
+            <span>Trust Risk</span>
+          </button>
+          <button class="nav-tab-btn" data-tab="tab-security" id="btn-tab-security">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span>Technical Security</span>
+          </button>
+          <button class="nav-tab-btn" data-tab="tab-radar" id="btn-tab-radar">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>Tech & CVE Radar</span>
+          </button>
+          <button class="nav-tab-btn" data-tab="tab-surface" id="btn-tab-surface">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+            <span>Attack Surface</span>
+          </button>
+          <button class="nav-tab-btn" data-tab="tab-devsec" id="btn-tab-devsec">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+            <span>Developer Audit</span>
+          </button>
+          <button class="nav-tab-btn" data-tab="tab-feed" id="btn-tab-feed">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            <span>SOC Telemetry</span>
           </button>
           <button class="nav-tab-btn" data-tab="tab-matrix" id="btn-tab-matrix">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -40,12 +76,6 @@
               <rect x="3" y="14" width="7" height="7"></rect>
             </svg>
             <span>Factor Matrix</span>
-          </button>
-          <button class="nav-tab-btn" data-tab="tab-feed" id="btn-tab-feed">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-            </svg>
-            <span>SOC Telemetry</span>
           </button>
         </nav>
 
@@ -176,7 +206,210 @@
         </div>
       </div>
 
-      <!-- TAB 2: Factor Matrix -->
+      <!-- TAB 2: Technical Security Assessment -->
+      <div id="tab-security" class="tab-view" style="display: none;">
+        <div class="sec-summary-banner" id="sec-summary-banner">
+          <div class="sec-stat-card">
+            <span class="sec-stat-label">Technical Security Risk</span>
+            <span class="sec-stat-value" id="sec-stat-score">--</span>
+          </div>
+          <div class="sec-stat-card">
+            <span class="sec-stat-label">Security Posture</span>
+            <span class="sec-stat-value" id="sec-stat-level">--</span>
+          </div>
+          <div class="sec-stat-card">
+            <span class="sec-stat-label">Critical / High Findings</span>
+            <span class="sec-stat-value" id="sec-stat-critical">0</span>
+          </div>
+          <div class="sec-stat-card">
+            <span class="sec-stat-label">TLS / HTTPS Status</span>
+            <span class="sec-stat-value" id="sec-stat-tls">--</span>
+          </div>
+        </div>
+
+        <div class="sec-findings-panel glass-panel">
+          <div class="panel-header-row">
+            <div>
+              <h2 class="panel-title">Technical Security Findings & Configuration</h2>
+              <span class="panel-tagline">Evaluates Security Headers, TLS Certificate, Cookies & OWASP Top 10 Passive Rules</span>
+            </div>
+            <div class="feed-filter-bar">
+              <button class="feed-filter-btn active" data-sec-filter="ALL">All Findings</button>
+              <button class="feed-filter-btn" data-sec-filter="CRITICAL">Critical</button>
+              <button class="feed-filter-btn" data-sec-filter="HIGH">High</button>
+              <button class="feed-filter-btn" data-sec-filter="MEDIUM">Medium</button>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="sec-findings-table">
+              <thead>
+                <tr>
+                  <th>Severity</th>
+                  <th>Finding ID & Category</th>
+                  <th>Observation & Evidence</th>
+                  <th>OWASP Top 10</th>
+                  <th>Remediation Guidance</th>
+                </tr>
+              </thead>
+              <tbody id="sec-findings-tbody">
+                <!-- Dynamically populated from API / test vectors -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Technology Fingerprinting & CVE Radar -->
+      <div id="tab-radar" class="tab-view" style="display: none;">
+        <div class="glass-panel" style="padding: 24px; margin-bottom: 24px;">
+          <div class="panel-header-row">
+            <div>
+              <h2 class="panel-title">Technology Fingerprint Inventory</h2>
+              <span class="panel-tagline">Passive Detection: Web Servers, Application Frameworks, CMS, and Client Libraries</span>
+            </div>
+            <span class="matrix-tech-badge" id="radar-tech-count">0 Technologies Disclosed</span>
+          </div>
+          <div class="tech-grid" id="radar-tech-grid">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 24px;">
+          <div class="panel-header-row">
+            <div>
+              <h2 class="panel-title">Vulnerability Intelligence & CVE Correlation</h2>
+              <span class="panel-tagline">Candidate CVE Matches from Detected Components (Marked as potentially affected, not confirmed exploits)</span>
+            </div>
+            <span class="matrix-weight-badge" id="radar-cve-count">0 CVE Matches</span>
+          </div>
+          <div class="cve-grid" id="radar-cve-grid">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: Authorized Attack-Surface & Scope Inventory -->
+      <div id="tab-surface" class="tab-view" style="display: none;">
+        <div class="glass-panel" style="padding: 24px; margin-bottom: 24px;">
+          <div class="panel-header-row">
+            <div>
+              <h2 class="panel-title">Authorized Assessment Scope Management</h2>
+              <span class="panel-tagline">Strict Backend Scope Enforcement: Active vulnerability probes require prior administrator authorization</span>
+            </div>
+            <div class="header-status-pill" id="scope-status-pill">
+              <span class="status-pulse-dot" style="background:#10B981;"></span>
+              <span id="scope-status-text">Scope Enforcer Active</span>
+            </div>
+          </div>
+
+          <form id="scope-add-form" class="scope-actions-bar" style="margin-top: 16px;">
+            <input type="text" id="scope-domain-input" class="url-input" placeholder="Add authorized domain (e.g., target-corp.internal)" style="flex: 2; padding: 10px 14px; font-size: 0.85rem;" />
+            <input type="text" id="scope-owner-input" class="url-input" placeholder="Authorized Admin (e.g., SecOps Lead)" style="flex: 1; padding: 10px 14px; font-size: 0.85rem;" />
+            <button type="submit" class="btn-scan" style="padding: 10px 18px; font-size: 0.85rem;">Authorize Target Scope</button>
+          </form>
+
+          <div style="overflow-x: auto; margin-top: 12px;">
+            <table class="sec-findings-table">
+              <thead>
+                <tr>
+                  <th>Target Domain</th>
+                  <th>Authorization Status</th>
+                  <th>Active Probing</th>
+                  <th>Authorized By</th>
+                  <th>Registered At</th>
+                </tr>
+              </thead>
+              <tbody id="scope-table-tbody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 24px;">
+          <div class="panel-header-row">
+            <div>
+              <h2 class="panel-title">Passive DNS & Discovered Asset Inventory</h2>
+              <span class="panel-tagline">A, AAAA, MX, NS, TXT, CAA telemetry and observed host assets</span>
+            </div>
+          </div>
+          <div style="overflow-x: auto; margin-top: 12px;">
+            <table class="sec-findings-table">
+              <thead>
+                <tr>
+                  <th>Asset / Hostname</th>
+                  <th>Asset Type</th>
+                  <th>IP Address</th>
+                  <th>Port</th>
+                  <th>Discovery Method</th>
+                  <th>First Observed</th>
+                </tr>
+              </thead>
+              <tbody id="assets-table-tbody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: Developer Security & Static Repository Audit -->
+      <div id="tab-devsec" class="tab-view" style="display: none;">
+        <div class="glass-panel" style="padding: 24px;">
+          <div class="panel-header-row">
+            <div>
+              <h2 class="panel-title">Developer Security: Static Code Analysis & Dependency Audit</h2>
+              <span class="panel-tagline">AST-based static scanning for Bandit/Semgrep patterns (eval, weak crypto, dangerous HTML, hardcoded secrets)</span>
+            </div>
+            <button class="btn-scan" id="btn-run-devsec" style="padding: 8px 16px; font-size: 0.82rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+              <span>Run Code Audit</span>
+            </button>
+          </div>
+
+          <div class="sec-summary-banner" style="margin-top: 16px;" id="devsec-summary-banner">
+            <div class="sec-stat-card">
+              <span class="sec-stat-label">Scanned Files</span>
+              <span class="sec-stat-value" id="devsec-files-count">--</span>
+            </div>
+            <div class="sec-stat-card">
+              <span class="sec-stat-label">Code Findings</span>
+              <span class="sec-stat-value" id="devsec-findings-count">--</span>
+            </div>
+            <div class="sec-stat-card">
+              <span class="sec-stat-label">Python Dependencies</span>
+              <span class="sec-stat-value" id="devsec-py-deps">--</span>
+            </div>
+            <div class="sec-stat-card">
+              <span class="sec-stat-label">NPM Dependencies</span>
+              <span class="sec-stat-value" id="devsec-npm-deps">--</span>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto; margin-top: 16px;">
+            <table class="sec-findings-table">
+              <thead>
+                <tr>
+                  <th>Severity</th>
+                  <th>Rule ID</th>
+                  <th>File Path & Line</th>
+                  <th>Observation & Code Context</th>
+                  <th>Remediation</th>
+                </tr>
+              </thead>
+              <tbody id="devsec-findings-tbody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 6: Factor Matrix -->
       <div id="tab-matrix" class="tab-view" style="display: none;">
         <div class="matrix-grid" id="matrix-cards-container">
           <!-- Populated dynamically with 7 factor specifications -->
